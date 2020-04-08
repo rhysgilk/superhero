@@ -154,7 +154,7 @@
             request = new XMLHttpRequest();
             console.log("1 - request object created");
 
-            request.open("GET", url, true);
+            request.open("GET", url, false);
 
             console.log("2 - opened request file");
 
@@ -163,10 +163,10 @@
 
                     if (request.readyState == 4 && request.status == 200) {
                         result = request.responseText;
-                        lyrics = JSON.parse(result);
+                        hero = JSON.parse(result);
 
                         document.getElementById("data").innerHTML = 
-                        lyrics["results"][0]["id"];
+                        hero["results"][0]["id"];
                     } else if (request.readyState == 4) {
                         document.getElementById("data").innerHTML = 
                         "Something went wrong!";
