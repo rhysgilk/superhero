@@ -147,6 +147,39 @@
 	</style>
 </head>
 <body>
+	<script type="text/javascript">
+        function getHero(name) {
+        	//token = 3249545798389040
+        	url = "https://superheroapi.com/api/3249545798389040/search/" + name;
+            request = new XMLHttpRequest();
+            console.log("1 - request object created");
+
+            request.open("GET", url, true);
+
+            console.log("2 - opened request file");
+
+            request.onreadystatechange = function() {
+                    console.log("3 - readystatechange event fired.");
+
+                    if (request.readyState == 4 && request.status == 200) {
+                        result = request.responseText;
+                        lyrics = JSON.parse(result);
+
+                        document.getElementById("data").innerHTML = 
+                        lyrics["results"][0]["id"];
+                    } else if (request.readyState == 4) {
+                        document.getElementById("data").innerHTML = 
+                        "Something went wrong!";
+                    } else if (request.readyState == 3) {
+                        document.getElementById("data").innerHTML = 
+                        "Too soon! Try again.";
+                    }
+            }
+            request.send()
+            console.log("4 - Request sent");
+        }
+        getHero("Batman");
+    </script>
 	<div class="bar">
 		<table id="navBar">
 			<tr style="width:100%;">
@@ -186,6 +219,7 @@
 			</tr>
 		</table>
 	</div>
+	<div id="data">Loading...</div>
 </body>
 </html>
 
