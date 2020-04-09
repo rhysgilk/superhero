@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<?php header('Access-Control-Allow-Origin: *'); ?>
+
 	<title> home </title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
@@ -147,38 +149,58 @@
 	</style>
 </head>
 <body>
+
 	<script type="text/javascript">
-        function getHero(name) {
-        	//token = 3249545798389040
-        	url = "https://superheroapi.com/api/3249545798389040/search/" + name;
-            request = new XMLHttpRequest();
-            console.log("1 - request object created");
+        function getHero(name) 
+        {
+        	const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        	const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        	var url = proxyurl + myurl;
+        	var request = new XMLHttpRequest();
+        	console.log("1 - request object created");
+			if ("withCredentials" in request) {
+				request.open("GET", url, true);
+			} else if (typeof XDomainRequest != "undefined") {
+				request = new XDomainRequest();
+				request.open("GET", url);
+			} else {
+				request = null;
+			}
+			if (!request) {
+				throw new Error('CORS not supported');
+			}
+			request.onreadystatechange = function() {
+	            console.log("3 - readystatechange event fired.");
+	            if (request.readyState == 4 && request.status == 200) {
+	                result = request.responseText;
+	                hero = JSON.parse(result);
+	                printHero(hero);
+	            } else if (request.readyState == 4) {
+	                document.getElementById("data").innerHTML = 
+	                "Something went wrong!";
+	            } else if (request.readyState == 3) {
+	                document.getElementById("data").innerHTML = 
+	                "Too soon! Try again.";
+	            }
 
-            request.open("GET", url, false);
-
-            console.log("2 - opened request file");
-
-            request.onreadystatechange = function() {
-                    console.log("3 - readystatechange event fired.");
-
-                    if (request.readyState == 4 && request.status == 200) {
-                        result = request.responseText;
-                        hero = JSON.parse(result);
-
-                        document.getElementById("data").innerHTML = 
-                        hero["results"][0]["id"];
-                    } else if (request.readyState == 4) {
-                        document.getElementById("data").innerHTML = 
-                        "Something went wrong!";
-                    } else if (request.readyState == 3) {
-                        document.getElementById("data").innerHTML = 
-                        "Too soon! Try again.";
-                    }
-            }
-            request.send()
-            console.log("4 - Request sent");
-        }
-        getHero("Batman");
+        	}
+	        request.send()
+	        console.log("4 - Request sent");
+		}
+		var input = prompt("Enter A Super Hero");
+		getHero(input);
+		function printHero(hero)
+		{
+			obj = hero["results"][0];
+			name = obj["name"];
+			fullName = obj["biography"]["full-name"];
+			image = obj["image"]["url"];
+			document.getElementById("data").innerHTML = 
+			"Name: " + name + "</br>" + 
+			"<img src='" + image + "'/>" + "</br>" +
+			"Full Name: " + fullName + "</br>";
+		}
+		
     </script>
 	<div class="bar">
 		<table id="navBar">
@@ -218,9 +240,8 @@
 				</td>
 			</tr>
 		</table>
-	</div>
+	</div></br></br></br></br></br></br>
 	<div id="data">Loading...</div>
-	<div>HEY THERE</div>
 </body>
 </html>
 
