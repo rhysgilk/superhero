@@ -88,9 +88,8 @@
 		}
 
 		.icons {
-			padding: 50px;
 			width:100%;
-			max-width: 300px;
+			max-width: 80%;
 			transition: .5s ease;	
 		}
 
@@ -114,6 +113,7 @@
 		.hoverIcon {
 			position: relative;
 			text-align: center;
+			width: 40%;
 		}
 
 		.hoverIcon:hover .icons {
@@ -134,24 +134,24 @@
 			color: #363CD2;
 			padding: 10px;
 			font-size: 25px;
-			border: 5px solid white;
 			width: 95%;
+			border: 3.5px solid white;
 		}
 		.bottomBar:hover {
-			background-color: #E7E7EC;
+			background-color: #363CD2;
 			color: white;
 			width: 95%;
-			
+			border: 3.5px solid #363CD2;
 		}
 		.bottomBar:hover .bottomBarText{
-			background-color: #E7E7EC;
 			color: white;
 			font-weight: bold;
 			transition: .25s ease;	
+			background-color: #363CD2;
 		}
 		.bottomBarText:hover {
-			background-color: #E7E7EC;
 			text-decoration: none;
+			background-color: #363CD2;
 		}
 
 		.bottomBarText:link {
@@ -160,7 +160,6 @@
 
 		.bottomBarText:visited {
   			text-decoration: none;
-  			color: #363CD2;
 		}
 
 		.bottomBarText:active {
@@ -169,20 +168,24 @@
 
 		.playMenu {
 			width:97%;
-			padding-right:2%;
+			padding-right:none;
 			background-color: #E7E7EC;
 			color: white;
 			font-size: 30px;
 		}
-				.back {
+		.back {
 			padding-left: 2%;
+			padding-top: 50px;
 			padding-right:2%;
+			padding-bottom: 0 !important;
+			margin-bottom: 0 !important;
 			max-width:96%;
 			object-fit: contain;
 			z-index: -1;
 			position: relative;
-			opacity: 0.6;
+			opacity: 0.8;
 		}
+
 	</style>
 </head>
 <body>
@@ -194,23 +197,26 @@
 						<button class="buttonDrop"> PLAY > </button>
 						<div class="dropdown-content">
 							<table class="playMenu">
-    							<tr>
+    							<tr style="padding-right: none;">
     								<td class="hoverIcon">
-    									<b style="padding-top: 10px;">play origional</b> <br> 
+<!--     									<b style="padding-top: 10px;">play origional</b> <br>  -->
 										<img class="icons"src="pow.png">
 										<div class="hovering">
-											<div class="hoverText"><br>pick<br>your<br>hero</div>
+											<div class="hoverText">pick your hero</div>
 										</div>
 									</td>
     								<td class="hoverIcon">
-    									<b style="padding-top: 10px;">play team mode</b> <br> 
+<!--     									<b style="padding-top: 10px;">play team mode</b> <br>  -->
     									<img class="icons"src="zap.png">
 										<div class="hovering">
-										<div class="hoverText"><br>pick<br>your<br>team</div>
+											<div class="hoverText">pick your team</div>
 										</div>
     								</td>
-    								<td>
-    									[image that looks aestetically pleasing]
+    								<td class="hoverIcon" style="padding-right: none; max-width:20%; background-color: #F5F7F8;">
+    									<img class="icons" style="max-width: 100%; float: right;" src="IMG_0039.PNG">
+    									<div class="hovering">
+											<div class="hoverText">about</div>
+										</div>
     								</td>
     							</tr>
     						</table>
@@ -229,7 +235,7 @@
 			</tr>
 		</table>
 	</div>	
-	<img class="back" src="superhero.jpeg">
+	<img class="back" src="background.jpg">
 </body>
 </html>
 
