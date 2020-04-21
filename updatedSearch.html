@@ -35,21 +35,35 @@
 			opacity: 0.15;
 		}
 
-		.ontop {
+		.ontopRight {
   			transition: .5s ease;
   			position: absolute;
   			top: 50%;
-  			left: 50%;
-  			transform: translate(-50%, -50%);
- 			-ms-transform: translate(-50%, -50%);
   			text-align: center;
 		}
+		.ontopLeft {
+  			transition: .5s ease;
+  			position: absolute;
+  			top: 50%;
+  			right: 50px;
+  			text-align: center;
+  			display: inline-block;
+		}
 
-		.onText {
+		.onTextLeft {
   			color: #363CD2;
   			font-size: 40px;
   			text-align: center;
   			position: relative;
+  			display: block;
+
+		}
+		.onTextRight {
+  			color: #363CD2;
+  			font-size: 40px;
+  			text-align: center;
+  			position: relative;
+  			display: block;
 		}
 
 /*		.arrowButton {
@@ -84,14 +98,24 @@
 			cursor:pointer;
 			width: 70%;
 			font-family: Century Gothic;
+			text-align: center;
 		}
 
-		.printText {
+		.printTextRight {
 			font-size: 20px;
 			transition: .10s ease;
 			position: fixed;
 			padding: 20px;
 			left: 2%;
+			color: #363CD2;
+			font-family: Century Gothic;
+		}
+		.printTextLeft{
+			font-size: 20px;
+			transition: .10s ease;
+			position: fixed;
+			padding: 20px;
+			right: 2%;
 			color: #363CD2;
 			font-family: Century Gothic;
 		}
@@ -149,25 +173,34 @@
 
 	<div class="backkk">
 		<img class="back" src="background.jpg">
-		<div class="ontop">
-			<div class="onText">
-				<form oninput="getHero(searchValue.value)">
-					<input type="text" class="search" id="searchValue" placeholder="search heros...">
+		<div class="ontopLeft">
+			<div class="onTextLeft">
+				<form oninput="getHeroLeft(searchValueLeft.value)">
+					<input type="text" class="search" id="searchValueLeft" placeholder="search heros...">
 <!-- 					<button class="arrowButton" id="searchButton"> > </button> -->
 				</form>
 			</div>
-			<output class="printText" id="printHere" for="searchValue"> </output>
-	</div>
+			<output class="printTextLeft" id="printHereLeft" for="searchValueLeft"> </output>
+		</div>
+		<div class="ontopRight">
+			<div class="onTextRight">
+				<form oninput="getHeroRight(searchValueRight.value)">
+					<input type="text" class="search" id="searchValueRight" placeholder="search heros...">
+<!-- 					<button class="arrowButton" id="searchButton"> > </button> -->
+				</form>
+			</div>
+			<output class="printTextRight" id="printHereRight" for="searchValueRight"> </output>
+		</div>
 
 
 		<script type="text/javascript">
-			function searchForHero() {
+			function searchForHeroLeft() {
 				var input = document.getElementById("searchValue").value;
 				alert(input);
-				getHero(input);
+				getHeroLeft(input);
 			}
 
-        	function getHero(name) 
+        	function getHeroLeft(name) 
         	{
         		const proxyurl = "https://cors-anywhere.herokuapp.com/";
         		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
@@ -190,13 +223,13 @@
 	            	if (request.readyState == 4 && request.status == 200) {
 	                	result = request.responseText;
 	                	hero = JSON.parse(result);
-	                	printHero(hero);
+	                	printHeroLeft(hero);
 	            	} else if (request.readyState == 4) {
-	                	document.getElementById("data").innerHTML = 
-	                	"Something went wrong!";
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
 	            	} else if (request.readyState == 3) {
-	                	document.getElementById("data").innerHTML = 
-	                	"Too soon! Try again.";
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
 	            	}
 
         		}
@@ -204,23 +237,75 @@
 	        	console.log("4 - Request sent");
 			}
 		
-			function printHero(hero)
+			function printHeroLeft(hero)
 			{
 				obj = hero["results"][0];
 				name = obj["name"];
 				fullName = obj["biography"]["full-name"];
 				image = obj["image"]["url"];
-				document.getElementById("printHere").innerHTML = 
+				document.getElementById("printHereLeft").innerHTML = 
 				"<div style='border: 6px solid #363CD2; background-color: white; padding:20px;'>" +
 				"<div style='float:left;'><b>most similar search results </b></div>" + 
 				"</br>  name: " + name + "</br>" + 
 				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
 				"full name: " + fullName + "</br> </div>";
 			}
+			function searchForHeroRight() {
+				var input = document.getElementById("searchValue").value;
+				alert(input);
+				getHeroRight(input);
+			}
+
+        	function getHeroRight(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printHeroRight(hero);
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
 		
+			function printHeroRight(hero)
+			{
+				obj = hero["results"][0];
+				name = obj["name"];
+				fullName = obj["biography"]["full-name"];
+				image = obj["image"]["url"];
+				document.getElementById("printHereRight").innerHTML = 
+				"<div style='border: 6px solid #363CD2; background-color: white; padding:20px;'>" +
+				"<div style='float:left;'><b>most similar search results </b></div>" + 
+				"</br>  name: " + name + "</br>" + 
+				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
+				"full name: " + fullName + "</br> </div>";
+			}
     </script>
 </body>
 </html>
-
-
-
