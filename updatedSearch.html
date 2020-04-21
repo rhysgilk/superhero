@@ -110,7 +110,7 @@
 			color: #363CD2;
 			font-family: Century Gothic;
 		}
-		.printTextLeft{
+		.printTextLeft {
 			font-size: 20px;
 			transition: .10s ease;
 			position: fixed;
@@ -118,6 +118,12 @@
 			right: 2%;
 			color: #363CD2;
 			font-family: Century Gothic;
+		}
+		.fightBar {
+			text-align: center;
+			top: 60%;
+			position: absolute;
+			left: 48%;
 		}
 
 	</style>
@@ -169,8 +175,9 @@
 			</tr>
 		</table>
 	</div>	
-
-
+	<div class="fightBar">
+		<button type="button" onclick="fight()">Fight!</button>
+	</div>
 	<div class="backkk">
 		<img class="back" src="background.jpg">
 		<div class="ontopLeft">
@@ -305,6 +312,10 @@
 				"</br>  name: " + name + "</br>" + 
 				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
 				"full name: " + fullName + "</br> </div>";
+			}
+			function fight()
+			{
+				
 			}
     </script>
 </body>
