@@ -3,14 +3,14 @@
 <head>
 	<?php header('Access-Control-Allow-Origin: *'); ?>
 
-	<title> home </title>
+	<title> search </title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style>
 		.bar {
 			font-size: 20px;
 			background-color: white;
 			color: #363CD2;
-			font-family: serif; 
+			font-family: Century Gothic;
 			position: fixed; 
 			width:100%;
 			text-align: center;
@@ -24,6 +24,7 @@
 			width:100%;
 			padding-bottom: 4px;
 			padding-top: 4px;
+			font-family: Century Gothic;
 		}
 		button {
 			border-color: white;
@@ -31,17 +32,9 @@
 			color: #363CD2;
 			cursor: pointer;
 			font-size: 20px;
-			font-family: serif; 
+			font-family: Century Gothic;
 		}
-		.back {
-			padding-left: 2%;
-			padding-right:2%;
-			max-width:96%;
-			object-fit: contain;
-			z-index: -1;
-			position: relative;
-			opacity: 0.6;
-		}
+
 		a:link {
   			text-decoration: none;
 		}
@@ -67,6 +60,7 @@
   			width: 98%;
 			z-index: 3;
 			float: left;
+			font-family: Century Gothic;
 		}
 		.buttonDrop {
 			border-color: white;
@@ -74,8 +68,8 @@
 			color: #363CD2;
 			cursor: pointer;
 			font-size: 20px;
-			font-family: serif; 
   			border: none;
+  			font-family: Century Gothic;
 		}
 		.dropdown {
   			position: relative;
@@ -96,9 +90,8 @@
 		}
 
 		.icons {
-			padding: 50px;
 			width:100%;
-			max-width: 300px;
+			max-width: 80%;
 			transition: .5s ease;	
 		}
 
@@ -122,6 +115,7 @@
 		.hoverIcon {
 			position: relative;
 			text-align: center;
+			width: 40%;
 		}
 
 		.hoverIcon:hover .icons {
@@ -136,112 +130,272 @@
 			background-color: white;
 		}
 
+		.bottomBar {
+			background-color: white;
+			text-align: center;
+			color: #363CD2;
+			padding: 10px;
+			font-size: 25px;
+			width: 95%;
+			border: 3.5px solid white;
+		}
+		.bottomBar:hover {
+			background-color: #363CD2;
+			color: white;
+			width: 95%;
+			border: 3.5px solid #363CD2;
+		}
+		.bottomBar:hover .bottomBarText{
+			color: white;
+			font-weight: bold;
+			transition: .25s ease;	
+			background-color: #363CD2;
+		}
+		.bottomBarText:hover {
+			text-decoration: none;
+			background-color: #363CD2;
+		}
+
+		.bottomBarText:link {
+  			text-decoration: none;
+		}
+
+		.bottomBarText:visited {
+  			text-decoration: none;
+		}
+
+		.bottomBarText:active {
+  			text-decoration: none;
+		}
+
 		.playMenu {
 			width:97%;
-			padding-right:2%;
+			padding-right:none;
 			background-color: #E7E7EC;
-			color: #363CD2;
+			color: white;
 			font-size: 30px;
+		}
+		.back {
+			padding-left: 2%;
+			padding-right:2%;
+			max-width:96%;
+			object-fit: contain;
+			z-index: -1;
+			position: relative;
+			opacity: 0.6;
+		}
+		.credit {
+			float: left;
+			color: #363CD2;
+			font-size: 15px;
 		}
 
 
+
+
+
+		.backkk {
+			position: relative;
+			text-align: center;
+		}
+
+		.back {
+			padding-left: 2%;
+			padding-top: 50px;
+			padding-right:2%;
+			padding-bottom: 0 !important;
+			margin-bottom: 0 !important;
+			max-width:96%;
+			object-fit: contain;
+			z-index: -1;
+			position: relative;
+			opacity: 0.15;
+		}
+
+		.ontop {
+  			transition: .5s ease;
+  			position: absolute;
+  			top: 50%;
+  			left: 50%;
+  			transform: translate(-50%, -50%);
+ 			-ms-transform: translate(-50%, -50%);
+  			text-align: center;
+		}
+
+		.onText {
+  			color: #363CD2;
+  			font-size: 40px;
+  			text-align: center;
+  			position: relative;
+		}
+
+/*		.arrowButton {
+			color: #363CD2;
+			background-color: Transparent;
+			border-color: #363CD2;
+			border-style: solid;
+			border-width: 2px;
+			padding-left: 20px;
+			padding-right: 20px;
+			padding-top: 7px;
+			padding-bottom: 7px;
+			border-radius: 2px;
+			font-size: 40px;
+			font-family: Century Gothic;
+		}
+		.arrowButton:hover {
+			background-color: white;
+		}*/
+
+		.search {
+			font-size: 50px;
+			background-color: Transparent;
+			padding-left: 20px;
+			padding-right: 20px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			background-color: Transparent;
+			color: #363CD2;
+			outline:none;
+			border: none;
+			cursor:pointer;
+			width: 70%;
+			font-family: Century Gothic;
+		}
+
+		.printText {
+			font-size: 20px;
+			transition: .10s ease;
+			position: fixed;
+			padding: 20px;
+			left: 2%;
+			color: #363CD2;
+			font-family: Century Gothic;
+		}
 
 	</style>
 </head>
 <body>
-
-	<script type="text/javascript">
-        function getHero(name) 
-        {
-        	const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        	const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
-        	var url = proxyurl + myurl;
-        	var request = new XMLHttpRequest();
-        	console.log("1 - request object created");
-			if ("withCredentials" in request) {
-				request.open("GET", url, true);
-			} else if (typeof XDomainRequest != "undefined") {
-				request = new XDomainRequest();
-				request.open("GET", url);
-			} else {
-				request = null;
-			}
-			if (!request) {
-				throw new Error('CORS not supported');
-			}
-			request.onreadystatechange = function() {
-	            console.log("3 - readystatechange event fired.");
-	            if (request.readyState == 4 && request.status == 200) {
-	                result = request.responseText;
-	                hero = JSON.parse(result);
-	                printHero(hero);
-	            } else if (request.readyState == 4) {
-	                document.getElementById("data").innerHTML = 
-	                "Something went wrong!";
-	            } else if (request.readyState == 3) {
-	                document.getElementById("data").innerHTML = 
-	                "Too soon! Try again.";
-	            }
-
-        	}
-	        request.send()
-	        console.log("4 - Request sent");
-		}
-		var input = prompt("Enter A Super Hero");
-		getHero(input);
-		function printHero(hero)
-		{
-			obj = hero["results"][0];
-			name = obj["name"];
-			fullName = obj["biography"]["full-name"];
-			image = obj["image"]["url"];
-			document.getElementById("data").innerHTML = 
-			"Name: " + name + "</br>" + 
-			"<img src='" + image + "'/>" + "</br>" +
-			"Full Name: " + fullName + "</br>";
-		}
-		
-    </script>
 	<div class="bar">
 		<table id="navBar">
 			<tr style="width:100%;">
 				<td style="padding-left:5%; width:30%; text-align: left; cursor: pointer;">
 					<div class="dropdown">
-						<button class="buttonDrop">play > </button>	
+						<button class="buttonDrop"> PLAY > </button>
 						<div class="dropdown-content">
 							<table class="playMenu">
-    						<tr>
-    							<td class="hoverIcon">
-    								<b>play origional</b> <br> 
-									<img class="icons"src="pow.png">
-									<div class="hovering">
-										<div class="hoverText"><b><br>pick<br>your<br>hero</b></div>
-									</div>
-								</td>
-    							<td class="hoverIcon">
-    								<b>play team mode</b> <br> 
-    								<img class="icons"src="zap.png">
-									<div class="hovering">
-									<div class="hoverText"><b><br>pick<br>your<br>team</b></div>
-									</div>
-    							</td>
-    							<td>
-    								[image that looks aestetically pleasing]
-    							</td>
+    							<tr style="padding-right: none;">
+    								<td class="hoverIcon">
+<!--     									<b style="padding-top: 10px;">play origional</b> <br>  -->
+										<img class="icons"src="pow.png">
+										<div class="hovering">
+											<div class="hoverText"><a href="playerMode.html">pick your hero</a></div>
+										</div>
+									</td>
+    								<td class="hoverIcon">
+<!--     									<b style="padding-top: 10px;">play team mode</b> <br>  -->
+    									<img class="icons"src="zap.png">
+										<div class="hovering">
+											<div class="hoverText"><a href="teamMode.html">pick your team</a></div>
+										</div>
+    								</td>
+    								<td class="hoverIcon" style="padding-right: none; max-width:20%; background-color: #F5F7F8;">
+    									<img class="icons" style="max-width: 100%; float: right;" src="IMG_0039.PNG">
+    									<div class="hovering">
+										<div class="hoverText"><a href="about.html">about</a></div>
+										</div>
+    								</td>
+    							</tr>
     						</table>
+    						<div class="bottomBar">
+    								<a href="search.html" class="bottomBarText">search for your hero →</a>
+    						</div>
   						</div>
 					</div>
 				</td>
-				<td style="font-size: 40px;">
-					<a href="index.html">[TEST]</a>
+				<td style="font-size: 40px; font-family: Century Gothic;">
+					<a href="index.html">ZERO to HERO</a>
 				</td>
 				<td style="padding-right:5%; width:30%; text-align: right;">
 					<a href="search.html"><button><i class="fa fa-search"></i></button></a>
 				</td>
 			</tr>
 		</table>
-	</div></br></br></br></br></br></br>
-	<div id="data">Loading...</div>
+	</div>	
+
+
+	<div class="backkk">
+		<img class="back" src="background.jpg">
+		<div class="ontop">
+			<div class="onText">
+				<form oninput="getHero(searchValue.value)">
+					<input type="text" class="search" id="searchValue" placeholder="search heros...">
+<!-- 					<button class="arrowButton" id="searchButton"> > </button> -->
+				</form>
+			</div>
+			<output class="printText" id="printHere" for="searchValue"> </output>
+	</div>
+
+
+		<script type="text/javascript">
+			function searchForHero() {
+				var input = document.getElementById("searchValue").value;
+				alert(input);
+				getHero(input);
+			}
+
+        	function getHero(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printHero(hero);
+	            	} else if (request.readyState == 4) {
+	                	document.getElementById("data").innerHTML = 
+	                	"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	document.getElementById("data").innerHTML = 
+	                	"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+		
+			function printHero(hero)
+			{
+				obj = hero["results"][0];
+				name = obj["name"];
+				fullName = obj["biography"]["full-name"];
+				image = obj["image"]["url"];
+				document.getElementById("printHere").innerHTML = 
+				"<div style='border: 6px solid #363CD2; background-color:white; padding:20px;'>" +
+				"<div style='float:left;'><b>most similar search results </div>" + 
+				"</br>  name: " + name + "</br>" + 
+				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
+				"full name: " + fullName + "</br> </b> </div>";
+			}
+		
+    </script>
 </body>
 </html>
 
