@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<?php header('Access-Control-Allow-Origin: *'); ?>
+
+	<title>team mode</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		.back {
+			padding-left: 2%;
+			padding-right:2%;
+			max-width:96%;
+			object-fit: contain;
+			z-index: -1;
+			position: relative;
+			opacity: 0.6;
+		}
+
+		.backkk {
+			position: absolute;
+			text-align: center;
+		}
+
+		.back {
+			padding-left: 2%;
+			padding-top: 50px;
+			padding-right:2%;
+			padding-bottom: 0 !important;
+			margin-bottom: 0 !important;
+			max-width:96%;
+			object-fit: contain;
+			z-index: -1;
+			position: relative;
+			opacity: 0.15;
+		}
+
+		.ontop {
+  			transition: .5s ease;
+  			position: absolute;
+  			left: 50%;
+  			top: 55%;
+  			width: 98%;
+  			transform: translate(-50%, -50%);
+ 			-ms-transform: translate(-50%, -50%);
+  			text-align: center;
+		}
+
+		.search {
+			font-size: 30px;
+			background-color: Transparent;
+			padding-left: 20px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+			background-color: Transparent;
+			color: #363CD2;
+			outline:none;
+			border: none;
+			cursor:pointer;
+			font-family: Century Gothic;
+			text-align: center;
+			float: left;
+		}
+		.fightBar {
+			text-align: center;
+			top: 42.5%;
+			position: absolute;
+			left: 46%;
+		}
+
+		.fightButton {
+			font-weight: bold;
+			color: white;
+			background-color: #363CD2;
+			padding-top: 8px;
+			padding-bottom: 8px;
+			padding-right: 10px;
+			padding-left: 10px;
+			font-size: 30px;
+			border-radius: 12px;
+			border: 3px solid white;
+			cursor:pointer;
+		}
+
+		.fightButton:hover {
+			background-color: #9c9ea1;
+			transition: .5s ease;
+		}
+
+		.labeling {
+			font-weight: bold;
+			font-size: 25px;
+			color: #363CD2;
+			font-family: Century Gothic;
+		}
+
+		.instruct {
+			transition: .5s ease;
+  			position: absolute;
+  			top: 18%;
+  			left: 50%;
+  			width: 90%;
+  			transform: translate(-50%, -50%);
+ 			-ms-transform: translate(-50%, -50%);
+  			text-align: center;
+  			background-color: white;
+  			border-radius: 12px;
+  			color: #6e7075;
+  			border: 2px solid #363CD2;
+  			padding: 10px;
+  			font-family: Century Gothic;
+  			font-size: 20px;
+		}
+
+		.outbox {
+			font-size: 15px;
+			border: 2px solid #363CD2;
+			background-color: white;
+			padding: none;
+			width: 30%;
+			float: right;
+			font-family: Century Gothic;
+		}
+
+		.leftCol {
+			width: 50%;
+			padding-left: 4%;
+			padding-right: 8%;
+			font-family: Century Gothic;
+		}
+
+		.rightCol {
+			width: 50%;
+			padding-right: 4%;
+			padding-left: 8%;
+			font-family: Century Gothic;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="bar">
+		<table id="navBar">
+			<tr style="width:100%;">
+				<td style="padding-left:5%; width:30%; text-align: left; cursor: pointer;">
+					<div class="dropdown">
+						<button class="buttonDrop"> PLAY > </button>
+						<div class="dropdown-content">
+							<table class="playMenu">
+    							<tr style="padding-right: none;">
+    								<td class="hoverIcon">
+<!--     									<b style="padding-top: 10px;">play origional</b> <br>  -->
+										<img class="icons"src="pow.png">
+										<div class="hovering">
+											<div class="hoverText"><a href="playerMode.html">pick your hero</a></div>
+										</div>
+									</td>
+    								<td class="hoverIcon">
+<!--     									<b style="padding-top: 10px;">play team mode</b> <br>  -->
+    									<img class="icons"src="zap.png">
+										<div class="hovering">
+										<div class="hoverText"><a href="teamMode.html">pick your team</a></div>
+										</div>
+    								</td>
+    								<td class="hoverIcon" style="padding-right: none; max-width:20%; background-color: #F5F7F8;">
+    									<img class="icons" style="max-width: 100%; float: right;" src="IMG_0039.PNG">
+    									<div class="hovering">
+											<div class="hoverText"><a href="about.html">about</a></div>
+										</div>
+    								</td>
+    							</tr>
+    						</table>
+    						<div class="bottomBar">
+    								<a href="search.html" class="bottomBarText">search for your hero →</a>
+    						</div>
+  						</div>
+					</div>
+				</td>
+				<td style="font-size: 40px; font-family: Century Gothic;">
+					<a href="index.html">ZERO to HERO</a>
+				</td>
+				<td style="padding-right:5%; width:30%; text-align: right;">
+					<a href="search.html"><button><i class="fa fa-search"></i></button></a>
+				</td>
+			</tr>
+		</table>
+	</div>	
+	<div class="fightBar">
+		<button type="button" class="fightButton" onclick="fight()">play!</button>
+	</div>
+	<div class="backkk">
+		<img class="back" src="background.jpg">
+		<div class="instruct"> 
+			Play team mode through using the search fields below to select your three superhero team and team of three opponent.
+			After choosing your players, click play to start the game. 
+		</div>
+		<table class="ontop">
+			<tr class="labeling">
+				<td>
+					select your superhero team:
+				</td>
+				<td>
+					select your opponent team:
+				</td>
+			</tr>
+			<tr>
+				<td class="leftCol">
+					<div style="text-align: left;"> player 1: <br> </div>
+					<form oninput="getHeroLeft1(searchLeft1.value)">
+						<input type="text" class="search" id="searchLeft1" placeholder="search heros...">
+					</form>
+					<output id="printLeft1" for="searchLeft1"> </output>
+				</td>
+				<td class="rightCol">
+					<div style="text-align: left;"> opponenet 1: <br> </div>
+					<form oninput="getHeroRight1(searchRight1.value)">
+						<input type="text" class="search" id="searchRight1" placeholder="search heros...">
+					</form>
+					<output id="printRight1" for="searchRight1"> </output>
+				</td>
+			</tr>
+			<tr>
+				<td class="leftCol">
+					<div style="text-align: left;"> player 2: <br> </div>
+					<form oninput="getHeroLeft2(searchLeft2.value)">
+						<input type="text" class="search" id="searchLeft2" placeholder="search heros...">
+					</form>
+					<output id="printLeft2" for="searchLeft2"> </output>
+				</td>
+				<td class="rightCol">
+					<div style="text-align: left;"> opponenet 2: <br> </div>
+					<form oninput="getHeroRight2(searchRight2.value)">
+						<input type="text" class="search" id="searchRight2" placeholder="search heros...">
+					</form>
+					<output id="printRight2" for="searchRight2"> </output>
+				</td>
+			</tr>
+			<tr>
+				<td class="leftCol">
+					<div style="text-align: left;"> player 3: <br> </div>
+					<form oninput="getHeroLeft3(searchLeft3.value)">
+						<input type="text" class="search" id="searchLeft3" placeholder="search heros...">
+					</form>
+					<output id="printLeft3" for="searchLeft3"> </output>
+				</td>
+				<td class="rightCol">
+					<div style="text-align: left;"> opponenet 3: <br> </div>
+					<form oninput="getHeroRight3(searchRight3.value)">
+						<input type="text" class="search" id="searchRight3" placeholder="search heros...">
+					</form>
+					<output id="printRight3" for="searchRight3"> </output>
+				</td>
+			</tr>
+		</table>
+	</div>
+		<script type="text/javascript">
+
+        	function getHeroLeft1(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printLeft(hero, "printLeft1");
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+			function getHeroLeft2(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printLeft(hero, "printLeft2");
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+
+			function getHeroLeft3(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printLeft(hero, "printLeft3");
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+		
+			function printLeft(hero, id)
+			{
+				obj = hero["results"][0];
+				name = obj["name"];
+				fullName = obj["biography"]["full-name"];
+				image = obj["image"]["url"];
+				document.getElementById(id).innerHTML = 
+				"<div class='outbox'>" + name + " " + 
+				"</br> <img style='width: 30%;' src='" + image + "'/></div>";
+			}
+
+        	function getHeroRight1(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printRight(hero, "printRight1");
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+
+			function getHeroRight2(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printRight(hero, "printRight2");
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+
+			function getHeroRight3(name) 
+        	{
+        		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+        		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
+        		var url = proxyurl + myurl;
+        		var request = new XMLHttpRequest();
+        		console.log("1 - request object created");
+				if ("withCredentials" in request) {
+					request.open("GET", url, true);
+				} else if (typeof XDomainRequest != "undefined") {
+					request = new XDomainRequest();
+					request.open("GET", url);
+				} else {
+					request = null;
+				}
+				if (!request) {
+					throw new Error('CORS not supported');
+				}
+				request.onreadystatechange = function() {
+	            	console.log("3 - readystatechange event fired.");
+	            	if (request.readyState == 4 && request.status == 200) {
+	                	result = request.responseText;
+	                	hero = JSON.parse(result);
+	                	printRight(hero, "printRight3");
+	            	} else if (request.readyState == 4) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Something went wrong!";
+	            	} else if (request.readyState == 3) {
+	                	//document.getElementById("data").innerHTML = 
+	                	//"Too soon! Try again.";
+	            	}
+
+        		}
+	        	request.send()
+	        	console.log("4 - Request sent");
+			}
+		
+			function printRight(hero, id)
+			{
+				obj = hero["results"][0];
+				name = obj["name"];
+				fullName = obj["biography"]["full-name"];
+				image = obj["image"]["url"];
+				document.getElementById(id).innerHTML = 
+				"<div class='outbox'>" +
+				name + "</br>" + 
+				"<img style='width: 30%;' src='" + image + "'/> </div>";
+			}
+			function fight()
+			{
+				
+			}
+    </script>
+</body>
+</html>
