@@ -109,6 +109,51 @@
   			font-size: 20px;
 		}
 
+		table.battleDisplay {
+				font-family: Century Gothic;
+				display: none;
+				transition: .5s ease;
+  			position: absolute;
+  			top: 35%;
+  			margin-left: 10%;
+  			margin-right: 10%;
+				width: 80%;
+		}
+
+		.heroName {
+				text-align: center;
+				font-size: 2em;
+		}
+
+		.healthbar {
+			width: 200px;
+			height: 20px;
+			align-content: left;
+		}
+
+		.healthbarFrame {
+				border: 2px solid #000000;
+				border-radius: 6px;
+				width: 100%;
+				height: 100%;
+				z-index: 0;
+		}
+
+		.healthbarFill {
+				background-color: #ff0000;
+				position: relative;
+				width: 100%;
+				height: 100%;
+				top: -22px;
+				left: 2px;
+				z-index: -1;
+		}
+
+		.healthFrac {
+				text-align: right;
+				width: 100%;
+		}
+
 	</style>
 </head>
 <body>
@@ -157,15 +202,15 @@
 				</td>
 			</tr>
 		</table>
-	</div>	
+	</div>
 	<div class="fightBar">
 		<button type="button" class="fightButton" onclick="fight()">play!</button>
 	</div>
 	<div class="backkk">
 		<img class="back" src="background.jpg">
-		<div class="instruct"> 
+		<div class="instruct">
 			Play individual mode through using the search fields below to find your superhero and opponent of choice.
-			After choosing your players, click play to start the game. 
+			After choosing your players, click play to start the game.
 		</div>
 		<table class="ontop">
 			<tr class="labeling">
@@ -199,14 +244,48 @@
 			</tr>
 		</table>
 	</div>
+	<!-- The battle interface, off by default -->
+	<table class="battleDisplay">
+		<tr>
+			<td id="leftHeroName" class="heroName">&nbsp;</td>
+			<td></td>
+			<td id="rightHeroName" class="heroName">&nbsp;</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="healthbar">
+					<div id="leftHealthFrac" class="healthFrac">&nbsp;</div>
+					<div class="healthbarFrame">&nbsp;</div>
+					<div id="leftHealthBar" class="healthbarFill">&nbsp;</div>
+				</div>
+			</td>
+			<td></td>
+			<td>
+				<div class="healthbar">
+					<div id="rightHealthFrac" class="healthFrac">&nbsp;</div>
+					<div class="healthbarFrame">&nbsp;</div>
+					<div id="rightHealthBar" class="healthbarFill">&nbsp;</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td><br /><div id="leftImage">&nbsp;</div></td>
+			<td></td>
+			<td><br /><div id="rightImage">&nbsp;</div></td>
+		</tr>
+	</table>
+
 		<script type="text/javascript">
+			var hero_left = null;
+			var hero_right = null;
+
 			function searchForHeroLeft() {
 				var input = document.getElementById("searchValue").value;
 				alert(input);
 				getHeroLeft(input);
 			}
 
-        	function getHeroLeft(name) 
+        	function getHeroLeft(name)
         	{
         		const proxyurl = "https://cors-anywhere.herokuapp.com/";
         		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
@@ -229,12 +308,13 @@
 	            	if (request.readyState == 4 && request.status == 200) {
 	                	result = request.responseText;
 	                	hero = JSON.parse(result);
+										hero_left = hero["results"][0];
 	                	printHeroLeft(hero);
 	            	} else if (request.readyState == 4) {
-	                	//document.getElementById("data").innerHTML = 
+	                	//document.getElementById("data").innerHTML =
 	                	//"Something went wrong!";
 	            	} else if (request.readyState == 3) {
-	                	//document.getElementById("data").innerHTML = 
+	                	//document.getElementById("data").innerHTML =
 	                	//"Too soon! Try again.";
 	            	}
 
@@ -242,17 +322,17 @@
 	        	request.send()
 	        	console.log("4 - Request sent");
 			}
-		
+
 			function printHeroLeft(hero)
 			{
 				obj = hero["results"][0];
 				name = obj["name"];
 				fullName = obj["biography"]["full-name"];
 				image = obj["image"]["url"];
-				document.getElementById("printHereLeft").innerHTML = 
+				document.getElementById("printHereLeft").innerHTML =
 				"<div style='border: 6px solid #363CD2; background-color: white; padding:20px; padding-left:none;'>" +
-				"<div style='float:left;'><b>most similar search results </b></div>" + 
-				"</br>  name: " + name + "</br>" + 
+				"<div style='float:left;'><b>most similar search results </b></div>" +
+				"</br>  name: " + name + "</br>" +
 				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
 				"full name: " + fullName + "</br> </div>";
 			}
@@ -262,7 +342,7 @@
 				getHeroRight(input);
 			}
 
-        	function getHeroRight(name) 
+        	function getHeroRight(name)
         	{
         		const proxyurl = "https://cors-anywhere.herokuapp.com/";
         		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
@@ -285,12 +365,13 @@
 	            	if (request.readyState == 4 && request.status == 200) {
 	                	result = request.responseText;
 	                	hero = JSON.parse(result);
+										hero_right = hero["results"][0];
 	                	printHeroRight(hero);
 	            	} else if (request.readyState == 4) {
-	                	//document.getElementById("data").innerHTML = 
+	                	//document.getElementById("data").innerHTML =
 	                	//"Something went wrong!";
 	            	} else if (request.readyState == 3) {
-	                	//document.getElementById("data").innerHTML = 
+	                	//document.getElementById("data").innerHTML =
 	                	//"Too soon! Try again.";
 	            	}
 
@@ -298,23 +379,48 @@
 	        	request.send()
 	        	console.log("4 - Request sent");
 			}
-		
+
 			function printHeroRight(hero)
 			{
 				obj = hero["results"][0];
 				name = obj["name"];
 				fullName = obj["biography"]["full-name"];
 				image = obj["image"]["url"];
-				document.getElementById("printHereRight").innerHTML = 
+				document.getElementById("printHereRight").innerHTML =
 				"<div style='border: 6px solid #363CD2; background-color: white; padding:20px; padding-right:none;'>" +
-				"<div style='float:left;'><b>most similar search results </b></div>" + 
-				"</br>  name: " + name + "</br>" + 
+				"<div style='float:left;'><b>most similar search results </b></div>" +
+				"</br>  name: " + name + "</br>" +
 				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
 				"full name: " + fullName + "</br> </div>";
 			}
 			function fight()
 			{
-				
+				if (hero_left == null || hero_right == null)
+				{
+					return;
+				}
+				// Hide the search information
+				document.getElementById("printHereLeft").style.display = "none";
+				document.getElementById("printHereRight").style.display = "none";
+				document.getElementsByClassName("ontop")[0].style.display = "none";
+				document.getElementsByClassName("fightBar")[0].style.display = "none";
+
+				// Change the top message
+				document.getElementsByClassName("instruct")[0].innerHTML = "Watch the fight unfold!";
+				// Show battle battleDisplay
+				document.getElementsByClassName("battleDisplay")[0].style.display = "block";
+
+				// Show LEFT hero info
+				document.getElementById("leftHeroName").innerHTML = hero_left["name"];
+				health = hero_left["powerstats"]["durability"];
+				document.getElementById("leftHealthFrac").innerHTML = health + "/" + health;
+				document.getElementById("leftImage").innerHTML = "<img style='width: 30%;' src='" + hero_left["image"]["url"] + "'/>";
+
+				// Show RIGHT hero info
+				document.getElementById("rightHeroName").innerHTML = hero_right["name"];
+				health = hero_right["powerstats"]["durability"];
+				document.getElementById("rightHealthFrac").innerHTML = health + "/" + health;
+				document.getElementById("rightImage").innerHTML = "<img style='width: 30%;' src='" + hero_right["image"]["url"] + "'/>";
 			}
     </script>
 </body>
