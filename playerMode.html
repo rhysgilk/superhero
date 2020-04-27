@@ -461,6 +461,24 @@
 
 			function fight()
 			{
+				//<connor>
+				//I Finished the database fight input
+				//to add a person to a database send a post request to the url https://superboard.herokuapp.com/post
+				//to choose who won to input into the databse add a query string with name=<name of superhero>
+				//example: https://superboard.herokuapp.com/post?name=superman
+				/* The below code might work I didn't test it properly. I used an online post request engine
+				const Http = new XMLHttpRequest();
+                    		var url='https://superboard.herokuapp.com/post' ;
+				url = url +"?name="+ <SUPERHERO NAME VARIABLE>
+                   		Http.open("POST", url);
+                   		Http.send();
+                    		Http.onreadystatechange = (e) => {
+                    		var resp = http.responseText;
+                    		console.log(resp);
+				*/
+				
+				
+				
 				if (hero_left_json == null || hero_right_json == null)
 				{
 					return;
