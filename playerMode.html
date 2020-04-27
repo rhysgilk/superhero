@@ -114,7 +114,7 @@
 				display: none;
 				transition: .5s ease;
   			position: absolute;
-  			top: 35%;
+  			top: 25%;
   			margin-left: 10%;
   			margin-right: 10%;
 				width: 80%;
@@ -129,6 +129,7 @@
 			width: 200px;
 			height: 20px;
 			align-content: left;
+			margin: auto;
 		}
 
 		.healthbarFrame {
@@ -152,6 +153,53 @@
 		.healthFrac {
 				text-align: right;
 				width: 100%;
+		}
+
+		@keyframes flashred {
+		    0% {
+		        opacity: 1;
+		    }
+		    50% {
+		        opacity: 0.5;
+		    }
+		    100% {
+		        opacity: 1;
+		    }
+		}
+		img.heroImage {
+			  animation-play-state: paused;
+		    animation-iteration-count: 1;
+				animation-name: flashred;
+				animation-duration: 0.6s;
+				max-width: 210px;
+				width: 100%;
+				margin-top: 20px;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+		}
+
+		.heroStats {
+				display: inline-block;
+				font-size: 1.25em;
+				text-align: left;
+				border: 2px solid #000000;
+				padding: 20px;
+				margin-top: 8px;
+				background: rgba(255, 255, 255, 0.4);
+		}
+
+		#attackAction {
+				font-weight: bold;
+				font-size: 1.6em;
+				text-align: center;
+				padding: 10px;
+		}
+
+		#attackResponse {
+				font-size: 1.6em;
+				text-align: center;
+				padding: 10px;
 		}
 
 	</style>
@@ -247,9 +295,9 @@
 	<!-- The battle interface, off by default -->
 	<table class="battleDisplay">
 		<tr>
-			<td id="leftHeroName" class="heroName">&nbsp;</td>
-			<td></td>
-			<td id="rightHeroName" class="heroName">&nbsp;</td>
+			<td style="width: 33%;" id="leftHeroName" class="heroName">&nbsp;</td>
+			<td style="width: 33%;"></td>
+			<td style="width: 33%;" id="rightHeroName" class="heroName">&nbsp;</td>
 		</tr>
 		<tr>
 			<td>
@@ -269,15 +317,20 @@
 			</td>
 		</tr>
 		<tr>
-			<td><br /><div id="leftImage">&nbsp;</div></td>
+			<td><br /><div id="containLeftImage">&nbsp;</div></td>
+			<td> <p id=attackAction>&nbsp;</p> <p id=attackResponse>&nbsp;</p> </td>
+			<td><br /><div id="containRightImage">&nbsp;</div></td>
+		</tr>
+		<tr>
+			<td style="text-align: center;"><div id=leftStats class="heroStats">&nbsp;</div></td>
 			<td></td>
-			<td><br /><div id="rightImage">&nbsp;</div></td>
+			<td style="text-align: center;"><div id=rightStats class="heroStats">&nbsp;</div></td>
 		</tr>
 	</table>
 
 		<script type="text/javascript">
-			var hero_left = null;
-			var hero_right = null;
+			var hero_left_json = null;
+			var hero_right_json = null;
 
 			function searchForHeroLeft() {
 				var input = document.getElementById("searchValue").value;
@@ -308,7 +361,7 @@
 	            	if (request.readyState == 4 && request.status == 200) {
 	                	result = request.responseText;
 	                	hero = JSON.parse(result);
-										hero_left = hero["results"][0];
+										hero_left_json = hero["results"][0];
 	                	printHeroLeft(hero);
 	            	} else if (request.readyState == 4) {
 	                	//document.getElementById("data").innerHTML =
@@ -365,7 +418,7 @@
 	            	if (request.readyState == 4 && request.status == 200) {
 	                	result = request.responseText;
 	                	hero = JSON.parse(result);
-										hero_right = hero["results"][0];
+										hero_right_json = hero["results"][0];
 	                	printHeroRight(hero);
 	            	} else if (request.readyState == 4) {
 	                	//document.getElementById("data").innerHTML =
@@ -393,9 +446,22 @@
 				"<img style='width: 30%;' src='" + image + "'/>" + "</br>" +
 				"full name: " + fullName + "</br> </div>";
 			}
+
+			function damageLeft()
+			{
+				document.getElementById("leftImage").style.animationPlayState = "paused";
+				document.getElementById("leftImage").style.animationPlayState = "running";
+			}
+
+			function damageRight()
+			{
+				document.getElementById("rightImage").style.animationPlayState = "paused";
+				document.getElementById("rightImage").style.animationPlayState = "running";
+			}
+
 			function fight()
 			{
-				if (hero_left == null || hero_right == null)
+				if (hero_left_json == null || hero_right_json == null)
 				{
 					return;
 				}
@@ -407,20 +473,51 @@
 
 				// Change the top message
 				document.getElementsByClassName("instruct")[0].innerHTML = "Watch the fight unfold!";
-				// Show battle battleDisplay
-				document.getElementsByClassName("battleDisplay")[0].style.display = "block";
+				// Show table battleDisplay
+				document.getElementsByClassName("battleDisplay")[0].style.display = "table";
+
+				// Create left hero info
+				var hero_left = {
+					name: hero_left_json["name"],
+					health: parseInt(hero_left_json["powerstats"]["durability"]),
+					intel: parseInt(hero_left_json["powerstats"]["intelligence"]),
+					speed: parseInt(hero_left_json["powerstats"]["speed"]),
+					strength: parseInt(hero_left_json["powerstats"]["strength"]),
+					attack: Math.round(parseInt(hero_left_json["powerstats"]["power"])
+															* parseInt(hero_left_json["powerstats"]["combat"]) / 100)
+				};
+				// Create right hero info
+				var hero_right = {
+					name: hero_right_json["name"],
+					health: parseInt(hero_right_json["powerstats"]["durability"]),
+					intel: parseInt(hero_right_json["powerstats"]["intelligence"]),
+					speed: parseInt(hero_right_json["powerstats"]["speed"]),
+					strength: parseInt(hero_right_json["powerstats"]["strength"]),
+					attack: Math.round(parseInt(hero_right_json["powerstats"]["power"])
+														* parseInt(hero_right_json["powerstats"]["combat"]) / 100)
+				};
 
 				// Show LEFT hero info
-				document.getElementById("leftHeroName").innerHTML = hero_left["name"];
-				health = hero_left["powerstats"]["durability"];
-				document.getElementById("leftHealthFrac").innerHTML = health + "/" + health;
-				document.getElementById("leftImage").innerHTML = "<img style='width: 30%;' src='" + hero_left["image"]["url"] + "'/>";
+				document.getElementById("leftHeroName").innerHTML = hero_left_json["name"];
+				document.getElementById("leftHealthFrac").innerHTML = hero_left.health + "/" + hero_left.health;
+				document.getElementById("containLeftImage").innerHTML = "<img id='leftImage' class='heroImage' src='" + hero_left_json["image"]["url"] + "'/>";
+				document.getElementById("leftStats").innerHTML =
+						"Strength: " + hero_left.strength + "<br />" +
+						"Intelligence: " + hero_left.intel + "<br />" +
+						"Speed: " + hero_left.speed + "<br />" +
+						"Attack Power: " + hero_left.attack;
 
 				// Show RIGHT hero info
-				document.getElementById("rightHeroName").innerHTML = hero_right["name"];
-				health = hero_right["powerstats"]["durability"];
-				document.getElementById("rightHealthFrac").innerHTML = health + "/" + health;
-				document.getElementById("rightImage").innerHTML = "<img style='width: 30%;' src='" + hero_right["image"]["url"] + "'/>";
+				document.getElementById("rightHeroName").innerHTML = hero_right_json["name"];
+				document.getElementById("rightHealthFrac").innerHTML = hero_right.health + "/" + hero_right.health;
+				document.getElementById("containRightImage").innerHTML = "<img id='rightImage' class='heroImage' src='" + hero_right_json["image"]["url"] + "'/>";
+				document.getElementById("rightStats").innerHTML =
+						"Strength: " + hero_right.strength + "<br />" +
+						"Intelligence: " + hero_right.intel + "<br />" +
+						"Speed: " + hero_right.speed + "<br />" +
+						"Attack Power: " + hero_right.attack;
+
+				damageLeft();
 			}
     </script>
 </body>
