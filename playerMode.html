@@ -654,9 +654,9 @@
                     		var resp = http.responseText;
                     		console.log(resp);
 				*/
-				
-				
-				
+
+
+
 				if (hero_left_json == null || hero_right_json == null)
 				{
 					return;
@@ -716,6 +716,7 @@
 						"Attack Power: " + hero_right.attack;
 
 				// Run the game
+				doFightRound();
 				roundLoop = setInterval(doFightRound, 6000);
 			}
 
@@ -726,9 +727,8 @@
 				var action;
 				var response;
 
-				// Reset animations
+				// Reset left animation
 				document.getElementById("leftImage").className = "heroImage";
-				document.getElementById("rightImage").className = "heroImage";
 
 				// Reset text output
 				document.getElementById("attackAction").innerHTML = "";
@@ -746,7 +746,8 @@
 				win = damageRight(response.reduced, hero_right);
 
 				if (win) {
-					printWin(true);
+					clearInterval(roundLoop);
+					setTimeout(() => printWin(true), 2500);
 				} else {
 					setTimeout(makeRightAttack, 3000)
 				}
@@ -756,6 +757,10 @@
 			function makeRightAttack()
 			{
 				var win = false;
+
+				// Reset right animation
+				document.getElementById("rightImage").className = "heroImage";
+
 				// Make right attack left
 				var action = fightAction(hero_right);
 				document.getElementById("attackAction").innerHTML = hero_right.name + " " + action.msg;
@@ -768,7 +773,10 @@
 				win = damageLeft(response.reduced, hero_left);
 
 				if (win)
-					printWin(false);
+				{
+					clearInterval(roundLoop);
+					setTimeout(() => printWin(false), 2500);
+				}
 			}
 
 			// Says left hero wins if given TRUE, says right hero wins if given FALSE
