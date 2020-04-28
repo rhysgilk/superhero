@@ -778,27 +778,31 @@
 				{
 					document.getElementById("attackAction").innerHTML = hero_left.name + " wins!";
 					document.getElementById("attackResponse").innerHTML = "";
+					const proxyurl = "https://cors-anywhere.herokuapp.com/";
 					const Http = new XMLHttpRequest();
-            		var url = 'https://superboard.herokuapp.com/post';
+            		var url = proxyurl + 'https://superboard.herokuapp.com/post';
 					url = url + "?name=" + hero_left.name;
                		Http.open("POST", url);
                		Http.send();
             		Http.onreadystatechange = (e) => {
-            		var resp = http.responseText;
-            		console.log(resp);
+	            		var resp = Http.responseText;
+	            		console.log(resp);
+	            	}
 				}
 				else
 				{
 					document.getElementById("attackAction").innerHTML = hero_right.name + " wins!";
 					document.getElementById("attackResponse").innerHTML = "";
+					const proxyurl = "https://cors-anywhere.herokuapp.com/";
 					const Http = new XMLHttpRequest();
-            		var url = 'https://superboard.herokuapp.com/post';
+            		var url = proxyurl + 'https://superboard.herokuapp.com/post';
 					url = url + "?name=" + hero_right.name;
                		Http.open("POST", url);
                		Http.send();
             		Http.onreadystatechange = (e) => {
-            		var resp = http.responseText;
-            		console.log(resp);
+	            		var resp = Http.responseText;
+	            		console.log(resp);
+	            	}
 				}
 			}
     </script>
