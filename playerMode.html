@@ -167,16 +167,25 @@
 		    }
 		}
 		img.heroImage {
-			  animation-play-state: paused;
-		    animation-iteration-count: 1;
-				animation-name: flashred;
-				animation-duration: 0.6s;
 				max-width: 210px;
 				width: 100%;
 				margin-top: 20px;
 				margin-left: auto;
 				margin-right: auto;
 				display: block;
+		}
+
+		img.heroImageFlash {
+			animation-play-state: running;
+			animation-iteration-count: 1;
+			animation-name: flashred;
+			animation-duration: 0.6s;
+			max-width: 210px;
+			width: 100%;
+			margin-top: 20px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
 		}
 
 		.heroStats {
@@ -447,17 +456,186 @@
 				"full name: " + fullName + "</br> </div>";
 			}
 
-			function damageLeft()
+			// Computes and displays damage on the player
+			function damageLeft(d, hero_left)
 			{
-				document.getElementById("leftImage").style.animationPlayState = "paused";
-				document.getElementById("leftImage").style.animationPlayState = "running";
+				document.getElementById("leftImage").className = "heroImageFlash";
+
+				// Decrease health
+				hero_left.health = Math.round(((hero_left.health - d) >= 0) ? (hero_left.health - d) : 0);
+
+				// Update healthbar
+				document.getElementById("leftHealthBar").style.width = ((hero_left.health / hero_left.max_health) * 100) + "%";
+				document.getElementById("leftHealthFrac").innerHTML = hero_left.health + "/" + hero_left.max_health;
+
+				// Return true if hero is dead
+				if (hero_left.health <= 0){
+					return true;
+				} else {
+					return false
+				}
 			}
 
-			function damageRight()
+			// Computes and displays damage on the opponent
+			function damageRight(d, hero_right)
 			{
-				document.getElementById("rightImage").style.animationPlayState = "paused";
-				document.getElementById("rightImage").style.animationPlayState = "running";
+				document.getElementById("rightImage").className = "heroImageFlash";
+
+				hero_right.health = Math.round(((hero_right.health - d) >= 0) ? (hero_right.health - d) : 0);
+
+				// Update healthbar
+				document.getElementById("rightHealthBar").style.width = ((hero_right.health / hero_right.max_health) * 100) + "%";
+				document.getElementById("rightHealthFrac").innerHTML = hero_right.health + "/" + hero_right.max_health;
+
+				// Return true if hero is dead
+				if (hero_right.health <= 0){
+					return true;
+				} else {
+					return false
+				}
 			}
+
+			// Given a hero object, determines an attack to execute this turn
+			function fightAction(hero)
+			{
+				// Decide whether to do physical attack or set a trap
+				if (hero.intel > hero.attack)
+				{
+					var chance = hero.attack / hero.intel / 2;
+					if (Math.random() <= chance) {
+						return {damage: hero.attack, type: "ATTACK", msg: "attacks with Power!"}
+					} else {
+						return {damage: hero.intel, type: "TRAP", msg: "sets a trap with Intelligence!"}
+					}
+				}
+				else
+				{
+					var chance = hero.intel / hero.attack / 2;
+					if (Math.random() <= chance) {
+						return {damage: hero.intel, type: "TRAP", msg: "sets a trap with Intelligence!"}
+					} else {
+						return {damage: hero.attack, type: "ATTACK", msg: "attacks with Power!"}
+					}
+				}
+			}
+
+			// Given a hero object and an amount of INTEL damage, determines
+			// how much this hero can counter
+			function trapResponse(hero, d)
+			{
+				var reduction = d;
+				var action = "";
+				var stat = "";
+				// Counter with either intel or speed -- the higher stat is more likely to be used
+				if (hero.intel > hero.speed)
+				{
+					var chance = hero.speed / hero.intel / 2;
+					if (Math.random() <= chance) {
+						reduction = d - hero.speed;
+						action = "escapes";
+						stat = "Speed";
+					} else {
+						reduction = d - hero.intel;
+						action = "outwits";
+						stat = "Intelligence";
+					}
+				}
+				else
+				{
+					var chance = hero.intel / hero.speed / 2;
+					if (Math.random() <= chance) {
+						reduction = d - hero.intel;
+						action = "outwits";
+						stat = "Intelligence";
+					} else {
+						reduction = d - hero.speed;
+						action = "evades";
+						stat = "Speed";
+					}
+				}
+
+				// Determine the quality of the counter (for the info message)
+				var message = "";
+				if (reduction/d > 0.98) {
+					message = "is ensnared!";
+				}
+				else if (reduction/d > 0.75) {
+					message = action + " slightly with " + stat;
+				}
+				else if (reduction/d > 0.20) {
+					message = action + " somewhat with " + stat;
+				}
+				else {
+					message = action + " easily with " + stat;
+					// Always do some damage
+					if (reduction <= 0) {
+						reduction = 1;
+					}
+				}
+
+				return {reduced: reduction, msg: message};
+			}
+
+			// Given a hero object and an amount of ATTACK POWER damage, determines
+			// how much this hero can counter
+			function attackResponse(hero, d)
+			{
+				var reduction = d;
+				var action = "";
+				var stat = "";
+				// Counter with either strength or speed -- the higher stat is more likely to be used
+				if (hero.strength > hero.speed)
+				{
+					var chance = hero.speed / hero.strength / 2;
+					if (Math.random() <= chance) {
+						reduction = d - hero.speed;
+						action = "evades";
+						stat = "Speed";
+					} else {
+						reduction = d - hero.strength;
+						action = "blocks";
+						stat = "Strength";
+					}
+				}
+				else
+				{
+					var chance = hero.strength / hero.speed / 2;
+					if (Math.random() <= chance) {
+						reduction = d - hero.strength;
+						action = "blocks";
+						stat = "Strength";
+					} else {
+						reduction = d - hero.speed;
+						action = "evades";
+						stat = "Speed";
+					}
+				}
+
+				// Determine the quality of the counter (for the info message)
+				var message = "";
+				if (reduction/d > 0.98) {
+					message = "staggers!";
+				}
+				else if (reduction/d > 0.75) {
+					message = action + " slightly with " + stat;
+				}
+				else if (reduction/d > 0.20) {
+					message = action + " somewhat with " + stat;
+				}
+				else {
+					message = action + " easily with " + stat;
+					// Always do some damage
+					if (reduction <= 0) {
+						reduction = 1;
+					}
+				}
+				return {reduced: reduction, msg: message};
+			}
+
+			var hero_left;
+			var hero_right;
+
+			var roundLoop;
 
 			function fight()
 			{
@@ -477,9 +655,10 @@
 				document.getElementsByClassName("battleDisplay")[0].style.display = "table";
 
 				// Create left hero info
-				var hero_left = {
+				hero_left = {
 					name: hero_left_json["name"],
 					health: parseInt(hero_left_json["powerstats"]["durability"]),
+					max_health: parseInt(hero_left_json["powerstats"]["durability"]),
 					intel: parseInt(hero_left_json["powerstats"]["intelligence"]),
 					speed: parseInt(hero_left_json["powerstats"]["speed"]),
 					strength: parseInt(hero_left_json["powerstats"]["strength"]),
@@ -487,9 +666,10 @@
 															* parseInt(hero_left_json["powerstats"]["combat"]) / 100)
 				};
 				// Create right hero info
-				var hero_right = {
+				hero_right = {
 					name: hero_right_json["name"],
 					health: parseInt(hero_right_json["powerstats"]["durability"]),
+					max_health: parseInt(hero_right_json["powerstats"]["durability"]),
 					intel: parseInt(hero_right_json["powerstats"]["intelligence"]),
 					speed: parseInt(hero_right_json["powerstats"]["speed"]),
 					strength: parseInt(hero_right_json["powerstats"]["strength"]),
@@ -517,7 +697,76 @@
 						"Speed: " + hero_right.speed + "<br />" +
 						"Attack Power: " + hero_right.attack;
 
-				damageLeft();
+				// Run the game
+				roundLoop = setInterval(doFightRound, 6000);
+			}
+
+			// Iterable function that runs one round of the fight
+			function doFightRound()
+			{
+				var win = false;
+				var action;
+				var response;
+
+				// Reset animations
+				document.getElementById("leftImage").className = "heroImage";
+				document.getElementById("rightImage").className = "heroImage";
+
+				// Reset text output
+				document.getElementById("attackAction").innerHTML = "";
+				document.getElementById("attackResponse").innerHTML = "";
+
+				// Make left attack right
+				action = fightAction(hero_left);
+				document.getElementById("attackAction").innerHTML = hero_left.name + " " + action.msg;
+				if (action.type == "ATTACK") {
+					response = attackResponse(hero_right, action.damage);
+				} else {
+					response = trapResponse(hero_right, action.damage);
+				}
+				document.getElementById("attackResponse").innerHTML = hero_right.name + " " + response.msg;
+				win = damageRight(response.reduced, hero_right);
+
+				if (win) {
+					printWin(true);
+				} else {
+					setTimeout(makeRightAttack, 3000)
+				}
+			}
+
+			// Helper function for doFightRound, makes right attack left
+			function makeRightAttack()
+			{
+				var win = false;
+				// Make right attack left
+				var action = fightAction(hero_right);
+				document.getElementById("attackAction").innerHTML = hero_right.name + " " + action.msg;
+				if (action.type == "ATTACK") {
+					var response = attackResponse(hero_left, action.damage);
+				} else {
+					var response = trapResponse(hero_left, action.damage);
+				}
+				document.getElementById("attackResponse").innerHTML = hero_left.name + " " + response.msg;
+				win = damageLeft(response.reduced, hero_left);
+
+				if (win)
+					printWin(false);
+			}
+
+			// Says left hero wins if given TRUE, says right hero wins if given FALSE
+			function printWin(left_win)
+			{
+				clearInterval(roundLoop);
+				if (left_win)
+				{
+					document.getElementById("attackAction").innerHTML = hero_left.name + " wins!";
+					document.getElementById("attackResponse").innerHTML = "";
+				}
+				else
+				{
+					document.getElementById("attackAction").innerHTML = hero_right.name + " wins!";
+					document.getElementById("attackResponse").innerHTML = "";
+				}
 			}
     </script>
 </body>
