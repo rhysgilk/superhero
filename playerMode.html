@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php header('Access-Control-Allow-Origin: *'); ?>
-
 	<title> player mode</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="navbar.css">
@@ -336,7 +334,7 @@
 			<td style="text-align: center;"><div id=rightStats class="heroStats">&nbsp;</div></td>
 		</tr>
 	</table>
-
+		<?php header('Access-Control-Allow-Origin: *'); ?>
 		<script type="text/javascript">
 			var hero_left_json = null;
 			var hero_right_json = null;
@@ -350,6 +348,7 @@
         	function getHeroLeft(name)
         	{
         		const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
         		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
         		var url = proxyurl + myurl;
         		var request = new XMLHttpRequest();
@@ -787,11 +786,31 @@
 				{
 					document.getElementById("attackAction").innerHTML = hero_left.name + " wins!";
 					document.getElementById("attackResponse").innerHTML = "";
+					const proxyurl = "https://cors-anywhere.herokuapp.com/";
+					const Http = new XMLHttpRequest();
+            		var url = proxyurl + 'https://superboard.herokuapp.com/post';
+					url = url + "?name=" + hero_left.name;
+               		Http.open("POST", url);
+               		Http.send();
+            		Http.onreadystatechange = (e) => {
+	            		var resp = Http.responseText;
+	            		console.log(resp);
+	            	}
 				}
 				else
 				{
 					document.getElementById("attackAction").innerHTML = hero_right.name + " wins!";
 					document.getElementById("attackResponse").innerHTML = "";
+					const proxyurl = "https://cors-anywhere.herokuapp.com/";
+					const Http = new XMLHttpRequest();
+            		var url = proxyurl + 'https://superboard.herokuapp.com/post';
+					url = url + "?name=" + hero_right.name;
+               		Http.open("POST", url);
+               		Http.send();
+            		Http.onreadystatechange = (e) => {
+	            		var resp = Http.responseText;
+	            		console.log(resp);
+	            	}
 				}
 			}
     </script>
