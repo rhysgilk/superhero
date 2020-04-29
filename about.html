@@ -5,6 +5,52 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="navbar.css">
 	<style>
+		.container {
+          position: relative;
+          text-align: center;
+          color: white;
+          font-size: 300px;
+          opacity: 30%;
+          z-index: -1;
+        }
+        .centered {
+          position: absolute;
+          padding-top: 630px;
+          top: 100%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .name {
+            text-align: center;
+            font-size: 50px;
+            color: #363CD2;
+            font-family: Century Gothic;
+        }
+        .personal {
+            text-align: center;
+            font-size: 26px;
+            font-family: Century Gothic;
+            color: #363CD2;
+            
+        }
+        .fact {
+            text-align: center;
+            font-style: italic;
+            font-size: 26px;
+            font-family: Century Gothic;
+            color: #363CD2;
+            /*text-shadow: 1px 1px 4px rgb(1, 7, 44);*/
+        }
+        .profile {
+            width: 50%;
+            box-sizing: border-box;
+            display: inline-block;
+            float: left;
+            padding-left: 120px;
+        }
+        div.personal, div.fact {
+            line-height: 30px;
+        }
 	</style>
 </head>
 <body>
@@ -48,5 +94,60 @@
 			</tr>
 		</table>
 	</div>	
+	</div>
+    <div class='large'>
+        <div class='small'>
+            <div>
+            	<span class="profile">
+            <img src="connor.jpeg" width="300px" />
+        </span>
+            	<div class="name">Connor Wind</div>
+	            <div class="personal">Major: International Relations</div>
+	            <div class="personal">Minor: Computer Science & Chinese</div>
+	            <div class="fact">Better knees than Mr. Siker</div>
+            </div>
+            <div>
+              	<span class="profile">
+            <img src="hailey.png" width="300px" />
+        </span>
+              	<div class="name">Hailey McKelvie</div>
+	            <div class="personal">Major: Computer Science</div>
+	            <div class="personal">Minor: Mathematics</div>
+	            <div class="fact">burritos overwhelm her</div>
+            </div>
+        </div>
+    </div>
+    <div class='large'>
+        <div class='small'>
+            <div>
+                <span class="profile">
+            <img src="niki.jpeg" width="300px" />
+        </span>
+                <div class="name">Niki Glenister</div>
+	            <div class="personal">Major: Computer Science & Music</div>
+	            <div class="fact">Learning to sword-fight</div>
+            </div>
+            <div>
+                <span class="profile">
+            <img src="rhys.jpg" width="300px" />
+        </span>
+                <div class="name">Rhys Gilkenson</div>
+	            <div class="personal">Major: Computer Science</div>
+	            <div class="personal">Minor: Chinese</div>
+	            <div class="fact">Has never eaten mayonnaise</div>
+            </div>
+            <div>
+                <span class="profile">
+            <img src="vaughan.jpeg" width="300px" />
+        </span>
+                <div class="name">Vaughan Siker</div>
+	            <div class="personal">Major: Computer Science & Philosophy</div>
+	            <div class="fact">Better than Connor at things</div>
+            </div>
+        </div>
+    </div>
+
+
+
 </body>
 </html>
