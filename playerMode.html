@@ -366,7 +366,9 @@
         		const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
         		const myurl = "https://superheroapi.com/api/3249545798389040/search/" + name;
-        		var url = proxyurl + myurl;
+        		// var url = proxyurl + myurl;
+			var url = myurl
+			
         		var request = new XMLHttpRequest();
         		console.log("1 - request object created");
 				if ("withCredentials" in request) {
